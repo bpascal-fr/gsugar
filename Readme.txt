@@ -43,4 +43,4 @@ RELATED PUBLICATION:
 
 # B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven selection of the hyperparameters for Total-Variation based texture segmentation, (2020) arxiv:2004.09434
 
-------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------

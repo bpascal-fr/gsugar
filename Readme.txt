@@ -39,8 +39,9 @@ Further, multiscale analysis is performed thanks to the toolbox "toolbox_pwMulti
 For convenience purposes, copies of the latter toolboxes are provided in the subfolders.
 
 -------------------------------------------------------------------------------------------------------------------
-RELATED PUBLICATION:
+RELATED PUBLICATIONS:
 
-# B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven selection of the hyperparameters for Total-Variation based texture segmentation, (2020) arxiv:2004.09434
+# B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven selection of the hyperparameters for Total-Variation based texture segmentation. (2020) arxiv:2004.09434
 
+# B. Pascal, N. Pustelnik, P. Abry: How Joint Fractal Features Estimation  and Texture Segmentation can be cast into a Strongly Convex Optimization Problem ?. (2019) arxiv:1910.05246
 -------------------------------------------------------------------------------------------------------------------

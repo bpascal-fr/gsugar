@@ -197,7 +197,7 @@ function [x,Ex, dx, Edx, crit, gap, t]=dPA_PDtv(I,prox, sure)
         % Compute dual criterion
         p = opL_adj(yh,yv);
         [p1, p2] = prox_L12(yh,yv,lambda);
-        dual = 1/2*norm(-p ,'fro')^2 - sum(p(:)*img_n(:)) + norm([p1,p2],'fro');
+        dual = 1/2*norm(-p ,'fro')^2 - sum(p(:).*img_n(:)) + norm([p1,p2],'fro');
         
         % Compute duality gap
         gap(it) = crit(it) + dual;

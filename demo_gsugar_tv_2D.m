@@ -65,3 +65,4 @@ K = 2;      % number of regions
     % Th_tv_opt: thresholded optimal estimate 
     % seg_tv_opt: obtained segmentation for optimal hyperparameters
     
+display_result_tv(x_tv_opt,seg_tv_opt)

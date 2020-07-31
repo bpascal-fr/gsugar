@@ -55,3 +55,11 @@ X.D     = D;
     % x_opt.signal:   estimate of the signal with lowest estimated risk
     % lbd_opt.l:      optimal hyperparameter lambda
     
+% Segmentation
+K = 2;      % number of regions
+[seg_tv_opt,Th_tv_opt]= trof(x_tv_opt.signal,K);
+    % Th_tv_opt: thresholded optimal estimate 
+    % seg_tv_opt: obtained segmentation for optimal hyperparameters
+    
+subplot(133); plot(1:N,x_tv_opt.signal,'linewidth',2); title('Estimates','interpreter','latex','fontsize',12); set(gca,'fontsize',20,'ticklabelinterpreter','latex'); grid on; hold on
+plot(1:N,Th_tv_opt,'r','linewidth',2); leg = legend('Regularized',['Thresholded ($',num2str(K),'$ levels)']); leg.Interpreter = 'Latex';

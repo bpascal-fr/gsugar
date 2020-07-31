@@ -20,7 +20,7 @@ img = double(imread('cameraman.tif'));
 
 % Noise properties
 sig   = 25;   % standard deviation of the noise
-l     = 1;      % correlation length
+l     = 1;    % correlation length
 
 % Noisy image
 noise = conv2(randn(size(img)),ones(l,l)/l,'same');
@@ -58,4 +58,10 @@ I.D     = D;
     % lbd_in.h:    initial lambda (defaut (5.5) of the article)
     % x_opt.img:   estimate of the image with lowest estimated risk
     % lbd_opt.l:   optimal hyperparameter lambda
+    
+% Segmentation
+K = 2;      % number of regions
+[seg_tv_opt,Th_tv_opt]= trof(x_tv_opt.img,K);
+    % Th_tv_opt: thresholded optimal estimate 
+    % seg_tv_opt: obtained segmentation for optimal hyperparameters
     

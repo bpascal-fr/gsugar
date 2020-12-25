@@ -23,19 +23,21 @@ function display_result(x,seg)
     seg_contour(:,:,2) = SEG2;
     seg_contour(:,:,3) = SEG3;
     
-    image(seg_contour);
     
     meth = x.meth;
     
     figure(1);
     if strcmp(meth,'ROF')
-        subplot(234);imagesc(seg_contour); axis off image
+        subplot(234);imagesc(seg_contour); axis off image; hold on
+        image(seg_contour);
         title(['$\widehat{h}^{\mathrm{',meth,'}}$'],'interpreter','latex','fontsize',20)
     elseif strcmp(meth,'J')
-        subplot(235);imagesc(seg_contour); axis off image
+        subplot(235);imagesc(seg_contour); axis off image; hold on
+        image(seg_contour);
         title(['$\widehat{h}^{\mathrm{',meth,'}}$'],'interpreter','latex','fontsize',20)
     else
-        subplot(236);imagesc(seg_contour); axis off image
+        subplot(236);imagesc(seg_contour); axis off image; hold on
+        image(seg_contour);
         title(['$\widehat{h}^{\mathrm{',meth,'}}$'],'interpreter','latex','fontsize',20)
     end
 end

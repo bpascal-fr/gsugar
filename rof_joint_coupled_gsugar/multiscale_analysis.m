@@ -6,7 +6,7 @@
 % Require the use of provided toolbox_pwMultiFractal developped by H. Wendt
 % (see https://www.irit.fr/~Herwig.Wendt/software.html)
 
-function L = multiscale_analysis(X, JJ, Nwt, gamint)
+function [L,C] = multiscale_analysis(X, JJ, Nwt, gamint)
     
     % inputs  - X: textured image to be analyzed
     %         - JJ: range of scales considered (default 1:3)
@@ -37,6 +37,7 @@ function L = multiscale_analysis(X, JJ, Nwt, gamint)
     
     % Store range of scales
     L.JJ = JJ;
+    C.JJ = JJ;
     J2 = JJ(end);
     
     % COMPUTATION OF THE CUMULANTS AND MULTIFRACTALS PARAMETERS
@@ -49,11 +50,14 @@ function L = multiscale_analysis(X, JJ, Nwt, gamint)
     
     % Extraction of maximum wavelet coefficients
     Yj = zeros(3,M,J2);
+    Cj = zeros(J2,M);
     for jj=1:J2
         for m =1:3
             Yj(m,:,jj) = reshape(abs(coefs(jj).value(:,:,m)),1,M);
         end
-        L.coefs{jj}=reshape(max(Yj(:,:,jj)),N1,N2);
+        Cj(jj,:) = reshape(max(Yj(:,:,jj)),1,M);
+        L.coefs{jj}= reshape(max(Yj(:,:,jj)),N1,N2);
+        C.leaders{jj}=reshape(max(Yj(:,:,jj)),N1,N2);
     end
     
     
@@ -80,6 +84,14 @@ function L = multiscale_analysis(X, JJ, Nwt, gamint)
     L.h_LR = reshape(h_LR,N1,N2);
     L.v_LR = reshape(v_LR,N1,N2);
     
+    % Linear regression to find sigma and h from coefficients
+    SCj = sum(Cj(JJ,:),1); 
+    SjCj = (JJ)*Cj(JJ,:);
+    hc_LR = (S0*SjCj - S1*SCj)/det;
+    vc_LR = (-S1*SjCj + S2*SCj)/det;
+    C.h_LR = reshape(hc_LR,N1,N2);
+    C.v_LR = reshape(vc_LR,N1,N2);
+    
     
     
     
@@ -98,4 +110,20 @@ function L = multiscale_analysis(X, JJ, Nwt, gamint)
     end
     L.S = S;
     L.D = D;
+    
+    % Estimate the covariance structure of coefficients
+    Sc = cell(length(JJ),length(JJ)); % covariance matrix
+    Dc = zeros(1, length(JJ));        % variance of log2-leaders
+    for ii = JJ
+        for jj = JJ
+            % Estimate correlations 
+            Sc{ii,jj} = xcorr2(log2(C.leaders{ii}),log2(C.leaders{jj}))/(N1*N2) - mean(log2(C.leaders{ii}(:)))*mean(log2(C.leaders{jj}(:)));
+            % Truncate it
+            sc_cov = 2^(ii-1)+2^(jj-1);
+            Sc{ii,jj} = Sc{ii,jj}(N1-sc_cov:N1+sc_cov, N2-sc_cov:N2+sc_cov);
+        end
+        Dc(ii) = var(log2(C.leaders{ii}(:)));
+    end
+    C.S = Sc;
+    C.D = Dc;
 end

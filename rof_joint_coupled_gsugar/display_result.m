@@ -28,16 +28,13 @@ function display_result(x,seg)
     
     figure(1);
     if strcmp(meth,'ROF')
-        subplot(234);imagesc(seg_contour); axis off image; hold on
-        image(seg_contour);
+        subplot(234);imagesc(seg_contour); axis off image
         title(['$\widehat{h}^{\mathrm{',meth,'}}$'],'interpreter','latex','fontsize',20)
     elseif strcmp(meth,'J')
-        subplot(235);imagesc(seg_contour); axis off image; hold on
-        image(seg_contour);
+        subplot(235);imagesc(seg_contour); axis off image
         title(['$\widehat{h}^{\mathrm{',meth,'}}$'],'interpreter','latex','fontsize',20)
     else
-        subplot(236);imagesc(seg_contour); axis off image; hold on
-        image(seg_contour);
+        subplot(236);imagesc(seg_contour); axis off image
         title(['$\widehat{h}^{\mathrm{',meth,'}}$'],'interpreter','latex','fontsize',20)
     end
 end

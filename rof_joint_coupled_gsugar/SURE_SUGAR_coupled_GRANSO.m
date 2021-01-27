@@ -51,7 +51,7 @@ function [sure_fdmc,sugar,v,h,Eh,dh_lv, dh_lh,Edh_lv,Edh_lh] = SURE_SUGAR_couple
     tmp = get_init;
     if isfield(tmp,'h')
         figure(1);
-        subplot(236);imagesc(tmp.h); axis off image
+        subplot(236);imagesc(tmp.h); axis off image; colormap(gray)
         title('$\widehat{h}^{\mathrm{C}}$','interpreter','latex','fontsize',20)
         pause(0.1)
     end

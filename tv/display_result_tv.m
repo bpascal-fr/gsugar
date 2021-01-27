@@ -23,8 +23,6 @@ function display_result_tv(x,seg)
     seg_contour(:,:,2) = SEG2;
     seg_contour(:,:,3) = SEG3;
     
-    image(seg_contour);
-    
     meth = 'TV';
     
     figure(1);

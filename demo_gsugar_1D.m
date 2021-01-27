@@ -11,7 +11,6 @@ clc
 
 
 addpath(genpath('./'))
-addpath(genpath('/Users/pabry/ownCloud/PhD_Barbara/Matlab/gsugar-master/'))
 
 %% GENERATION OF THE PIECEWISE Fractional Gaussian Field TO BE SEGMENTED
 

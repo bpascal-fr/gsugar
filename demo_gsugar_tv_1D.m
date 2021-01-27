@@ -11,13 +11,12 @@ clc
 
 
 addpath(genpath('./'))
-addpath(genpath('/Users/pabry/ownCloud/PhD_Barbara/Matlab/gsugar-master/'))
 
 %% NOISY PIECEWISE CONSTANT SIGNAL
 
 % Signal properties
 N        = 1e3 ;      % length of the signal
-sig      = 0.005;    % standard deviation of the noise
+sig      = 0.05;    % standard deviation of the noise
 l        = 10;       % correlation length
 
 % Build signal

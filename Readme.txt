@@ -27,10 +27,13 @@ The main functions are "bfgs_*meth*_gsugar.m" (image) and "bfgs_*meth*_gsugar_1D
 performing the segmentation with automatic and data-driven regularization parameter selection.
 
 Demo files are provided in:
-- "demo_gsugar.m": fractal texture segmentation
-- "demo_gsugar_1D.m": fractal process segmentation
-- "demo_gsugar_tv.m": Total Variation denoising for image segmentation
-- "demo_gsugar_tv.m": Total Variation denoising for signal segmentation
+- "demo_gsugar_2D.m"   : fractal texture segmentation with automated selection of hyperparameters
+- "demo_2D.m"          : fractal texture segmentation with manual choice of hyperparameters
+- "demo_gsugar_1D.m"   : fractal process segmentation with automated selection of hyperparameters
+- "demo_gsugar_tv_2D.m": Total Variation denoising for image segmentation with automated selection of hyperparameters
+- "demo_tv_2D.m"       : Total Variation denoising for image segmentation with manual choice of hyperparameters
+- "demo_gsugar_tv_1D.m": Total Variation denoising for signal segmentation with automated selection of hyperparameters
+- "demo_tv_1D.m"       : Total Variation denoising for signal segmentation with manual choice of hyperparameters
 
 This toolbox makes use of "GRANSO-master" (required) to perform BFGS quasi-Newton minimization of SURE. 
 The toolbox can be dowloaded from http://www.timmitchell.com/software/GRANSO/.

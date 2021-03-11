@@ -30,6 +30,7 @@ Demo files are provided in:
 - "demo_gsugar_2D.m"   : fractal texture segmentation with automated selection of hyperparameters
 - "demo_2D.m"          : fractal texture segmentation with manual choice of hyperparameters
 - "demo_gsugar_1D.m"   : fractal process segmentation with automated selection of hyperparameters
+- "demo_1D.m"          : fractal process segmentation with manual choice of hyperparameters
 - "demo_gsugar_tv_2D.m": Total Variation denoising for image segmentation with automated selection of hyperparameters
 - "demo_tv_2D.m"       : Total Variation denoising for image segmentation with manual choice of hyperparameters
 - "demo_gsugar_tv_1D.m": Total Variation denoising for signal segmentation with automated selection of hyperparameters

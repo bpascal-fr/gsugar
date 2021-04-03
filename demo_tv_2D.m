@@ -1,7 +1,7 @@
 % B. Pascal
 % February 2020
-% Texture segmentation from fractal features
-% Automatic tuning of hyperparameters from a Stein-based approach
+% Image segmentation from Rudin-Osher-Fatemi model
+% Manual choice of regularization parameter
 
 
 close all

@@ -1,7 +1,12 @@
 % B. Pascal
 % February 2020
-% Texture segmentation from fractal features
+% Signal segmentation from Rudin-Osher-Fatemi model
 % Automatic tuning of hyperparameters from a Stein-based approach
+%
+% from
+% - B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven 
+% selection of the hyperparameters for Total-Variation based texture
+% segmentation, (2020) arxiv:2004.09434
 
 
 close all

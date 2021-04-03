@@ -1,7 +1,16 @@
 % B. Pascal
 % February 2020
-% Texture segmentation from fractal features
+% Texture segmentation from fractal features with
 % Automatic tuning of hyperparameters from a Stein-based approach
+%
+% from
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
+% and
+% - B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven 
+% selection of the hyperparameters for Total-Variation based texture
+% segmentation, (2020) arxiv:2004.09434
 
 
 close all

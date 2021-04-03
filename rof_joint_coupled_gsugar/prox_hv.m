@@ -1,4 +1,13 @@
+% Proximal operator of the least-square data fidelity term encapsulating
+% the log-linear behavior of wavelet leaders through scales
+%
+% from
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
+
 function [h,v] = prox_hv(ph,ps,use,tau)
+    
     
     % Compute the proximal operator of data fidelity term
     %       (h,v) --> 1/2 sum_j || Lj - jh - v ||^2

@@ -2,9 +2,14 @@
 % to minimize Rudin-Osher-Fatemi functional on linear regression estimate
 % of local regularity (image)
 %
-% from A. Chambolle, T. Pock: A first-order primal-dual algorithm for convex 
-% problems with applications to imaging. J. Math. Imag. Vis. 40(1), 
+% from 
+% - A. Chambolle, T. Pock: A first-order primal-dual algorithm for convex 
+% problems with applications to imaging, J. Math. Imag. Vis. 40(1), 
 % 120-145 (2011)
+% and
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
 
 function [h, t, crit, gap]=PA_PD(L_X,prox)
     

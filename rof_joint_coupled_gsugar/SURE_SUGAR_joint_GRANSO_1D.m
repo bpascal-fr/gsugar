@@ -4,10 +4,12 @@
 % matrix S with finite difference step sure.eps and Monte Carlo vector
 % sure.delta (signal)
 %
-% from B. Pascal, N. Pustelnik, P. Abry: How Joint Fractal Features Estimation 
-% and Texture Segmentation can be cast into a Strongly Convex Optimization
-% Problem ?. arxiv:1910.05246
-% and B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven 
+% from 
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
+% and
+% - B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven 
 % selection of the hyperparameters for Total-Variation based texture
 % segmentation, (2020) arxiv:2004.09434
 

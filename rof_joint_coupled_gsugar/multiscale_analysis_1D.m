@@ -5,6 +5,17 @@
 %
 % Require the use of provided toolbox_pwMultiFractal developped by H. Wendt
 % (see https://www.irit.fr/~Herwig.Wendt/software.html)
+%
+%
+% from 
+% - S. Jaffard. Wavelet techniques in multifractal analysis. Fractal Geometry
+% and Applications: A Jubilee of Benoit Mandelbrot, M. Lapidus and M.
+% van Frankenhuijsen Eds., Proceedings of Symposia in Pure Mathematics,
+% 72(2):91{152, 2004.
+% and
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
 
 function L = multiscale_analysis_1D(X, JJ, Nwt, gamint)
     

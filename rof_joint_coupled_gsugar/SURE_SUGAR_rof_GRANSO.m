@@ -5,10 +5,14 @@
 % matrix S with finite difference step sure.eps and Monte Carlo vector
 % sure.delta (image)
 %
-% from B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven 
+% from 
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
+% and
+% - B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven 
 % selection of the hyperparameters for Total-Variation based texture
 % segmentation, (2020) arxiv:2004.09434
-
 
 function [sure_fdmc,sugar,h, Eh, dh, Edh] = SURE_SUGAR_rof_GRANSO(L, lbd, sure, S)
     

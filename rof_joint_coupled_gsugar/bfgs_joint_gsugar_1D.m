@@ -2,12 +2,15 @@
 % joint functional for fractal process segmentation using BFGS algorithm 
 % and generalized SURE and SUGAR  estimates (signal)
 %
-% from B. Pascal, N. Pustelnik, P. Abry: How Joint Fractal Features Estimation 
-% and Texture Segmentation can be cast into a Strongly Convex Optimization
-% Problem ?. arxiv:1910.05246
-% and B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven 
+% from 
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
+% and
+% - B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven 
 % selection of the hyperparameters for Total-Variation based texture
 % segmentation, (2020) arxiv:2004.09434
+
 
 function [x,lbd] = bfgs_joint_gsugar_1D(L,maxit,lbd_in)
     

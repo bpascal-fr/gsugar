@@ -1,12 +1,14 @@
 % Chambolle-Pock primal-dual algorithm with strong convexity acceleration
 % to minimize the joint functional for fractal texture segmentation (image)
 %
-% from B. Pascal, N. Pustelnik, P. Abry: How Joint Fractal Features Estimation 
-% and Texture Segmentation can be cast into a Strongly Convex Optimization
-% Problem ?. arxiv:1910.05246
-% and A. Chambolle, T. Pock: A first-order primal-dual algorithm for convex 
-% problems with applications to imaging. J. Math. Imag. Vis. 40(1), 
+% from 
+% - A. Chambolle, T. Pock: A first-order primal-dual algorithm for convex 
+% problems with applications to imaging, J. Math. Imag. Vis. 40(1), 
 % 120-145 (2011)
+% and
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
 
 function [v, h, t, crit, gap]=PA_PDj(L_X,prox)
     

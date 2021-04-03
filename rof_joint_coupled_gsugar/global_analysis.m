@@ -2,6 +2,12 @@
 % regression over averaged wavelet coefficients or leader wavelet
 % coefficients.
 
+% from 
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
+
+
 function G = global_analysis(X, L, seg)
     
     % inputs   - X: textured image or signal to be segmented

@@ -3,12 +3,19 @@
 % of local regularity with iterative differentiation w.r.t. the
 % regularization parameter (signal)
 %
-% from A. Chambolle, T. Pock: A first-order primal-dual algorithm for convex 
-% problems with applications to imaging. J. Math. Imag. Vis. 40(1), 
+% from 
+% - A. Chambolle, T. Pock: A first-order primal-dual algorithm for convex 
+% problems with applications to imaging, J. Math. Imag. Vis. 40(1), 
 % 120-145 (2011)
-% and B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven 
+% and
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
+% and
+% - B. Pascal, S. Vaiter, N. Pustelnik, P. Abry: Automated data-driven 
 % selection of the hyperparameters for Total-Variation based texture
 % segmentation, (2020) arxiv:2004.09434
+
 
 function [h,Eh, dh, Edh, crit, gap, t]=dPA_PD_1D(L_X,prox, sure)
     

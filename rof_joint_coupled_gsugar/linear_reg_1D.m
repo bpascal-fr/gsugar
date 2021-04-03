@@ -2,6 +2,12 @@
 % being a M pooints signal) to fit the behavior Lj = v + jh, 
 % i.e., minimize least squares
 % (vreg,hreg) = argmin_{v,h} sum_{j in JJ} || Lj - v - jh ||^2   
+%
+%
+% from 
+% - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
+% Joint Fractal Feature Estimation and Texture Segmentation, 
+% (2019) arxiv:1910.05246
 
 function [vreg, hreg] = linear_reg_1D(Lj, JJ)
 

@@ -1,19 +1,18 @@
-% Chambolle-Pock primal-dual algorithm with strong convexity acceleration
-% to minimize the coupled functional for fractal process segmentation (signal)
+% Fast Iterative Soft Thresholding Algorithm for the minimization of the 
+% joint functional for fractal texture segmentation (image)
 %
 % from 
-% - A. Chambolle, T. Pock: A first-order primal-dual algorithm for convex 
-% problems with applications to imaging, J. Math. Imag. Vis. 40(1), 
-% 120-145 (2011)
+% - A.Chambolle, C. Dossal: On the convergence of the iterates of ``FISTA",
+%  J. Optim. Theory Appl. 166(3), 25 (2015)
 % and
 % - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
 % Joint Fractal Feature Estimation and Texture Segmentation, 
 % (2019) arxiv:1910.05246
 
-function [v, h, t, crit, gap]=PA_PDc_1D(L_X,prox)
+function [v, h, t, crit, gap]=FISTAj(L_X,prox)
     
     % inputs  - L_X.leaders: undecimated wavelet leaders
-    %         - prox: (lambda, alpha) regularization parameters
+    %         - prox: (lambda_v, lambda_h) regularization parameters
     %
     % ouputs  - v: regularized estimate of local power
     %         - h: regularized estimate of local regularity
@@ -26,12 +25,9 @@ function [v, h, t, crit, gap]=PA_PDc_1D(L_X,prox)
     
     %% From leaders to log-leaders
     leaders = L_X.leaders;
-    J1=L_X.JJ(1);
-    J2=L_X.JJ(end);
-    JJ = L_X.JJ;
-    
+    JJ=L_X.JJ;
     L = cell(1,JJ(end));
-    for jj=J1:J2
+    for jj=JJ
         L{jj} = log2(leaders{jj});
     end
     
@@ -40,9 +36,9 @@ function [v, h, t, crit, gap]=PA_PDc_1D(L_X,prox)
     
     %% Constant terms for duality gap
     % only depending on leaders
-    adj_tv = zeros(size(L{J1}));
+    adj_tv = zeros(size(L{JJ(1)}));
     adj_th = adj_tv;
-    for jj=J1:J2
+    for jj=JJ
         adj_tv = adj_tv + L{jj};
         adj_th = adj_th + jj*L{jj};
     end
@@ -51,12 +47,12 @@ function [v, h, t, crit, gap]=PA_PDc_1D(L_X,prox)
     Aadj_th = (use.S0*adj_th - use.S1*adj_tv)/use.det;
     
     AAadj_t = cell(1,JJ(end));
-    for jj=J1:J2
+    for jj=JJ
         AAadj_t{jj} = Aadj_tv + jj*Aadj_th;
     end
     
     f_adj0 = 0;
-    for jj=J1:J2
+    for jj=JJ
         f_adj0 = f_adj0 - 1/2*norm(AAadj_t{jj}-L{jj},'fro')^2;
     end
     
@@ -64,21 +60,42 @@ function [v, h, t, crit, gap]=PA_PDc_1D(L_X,prox)
     %% Fixing Proximal Paramters
     gamma = 0.99;
     mu_g = use.mu;
-    lambda = prox.lambda;
-    alpha = prox.alpha;
-    Lip = normD_1D(alpha,size(L{JJ(1)}));
-    tau = gamma/Lip;
-    sig = gamma/Lip;
-    iter = 1e6;
+    normD = sqrt(2);
+    normA = use.norminv;
+    Lip = normD^2*normA^2;
+    gamman = gamma/Lip;
+    lambda_h = prox.lambda_h;
+    lambda_v = prox.lambda_v;
+    iter = 1e5;
     eps = 1e-4;
     
+    
     %% Initialization
-    h = zeros(size(L{J1}));
-    gn = alpha*opL_1D(h);
-    bgn = gn;
-    v = zeros(size(L{J1}));
-    tn = opL_1D(v);
-    btn = tn;
+    
+    %Dual variables
+    uh = zeros(size(L.h_LR)); 
+    lh = zeros(size(L.h_LR)); 
+    uv = = zeros(size(L.h_LR));
+    lh = zeros(size(L.h_LR)); 
+    buh = uh; buv = uh;
+    lh = uh; lv = lh; blh = uh; blv = lh;
+    
+    % Primal variables
+    v = Aadj_tv;
+    h = Aadj_th;
+    
+    
+    delta = 1;
+    a = 4;
+    
+    h = zeros(size(L{JJ(1)}));
+    [gn_h, gn_v] = opL(h);
+    bgn_h = gn_h;
+    bgn_v = gn_v;
+    v = zeros(size(L{JJ(1)}));
+    [tn_h, tn_v] = opL(v);
+    btn_h = tn_h;
+    btn_v = tn_v;
     
     crit = zeros(1,iter);
     gap = crit;
@@ -88,7 +105,7 @@ function [v, h, t, crit, gap]=PA_PDc_1D(L_X,prox)
     
     %% ALGORITHM
     
-    if lambda < 0 || alpha < 0
+    if lambda_v < 0 || lambda_h < 0
         [v,h] = linear_reg(L,L_X.JJ);
     else
         while (gap_c > eps)&&(it<iter)
@@ -99,24 +116,33 @@ function [v, h, t, crit, gap]=PA_PDc_1D(L_X,prox)
             
             tic
             %Save the dual variables
-            gn_s = gn;
-            tns = tn;
+            gn_hs = gn_h;
+            gn_vs = gn_v;
+            tn_hs = tn_h;
+            tn_vs = tn_v;
             
             %Update of primal variable
-            h = h - tau*alpha*opL_adj_1D(bgn);
-            v = v - tau*opL_adj_1D(btn);
+            h = h - tau*opL_adj(bgn_h,bgn_v);
+            v = v - tau*opL_adj(btn_h,btn_v);
             [h, v] = prox_hv(h,v,use,tau);
             
             %Update of dual variables
             
-            pgn = alpha*opL_1D(h);
-            ptn = opL_1D(v);
-            gn = gn + sig*pgn; %prox argument
-            tn = tn + sig*ptn; %prox argument
-            [pgn, ptn] = prox_L1c(gn/sig, tn/sig, lambda/sig);
-            gn = gn - sig*pgn;
-            tn = tn - sig*ptn;
+            %Dual Variable of h
+            [pgn_h, pgn_v] = opL(h);
+            gn_h = gn_h + sig*pgn_h; %prox argument
+            gn_v = gn_v + sig*pgn_v; %prox argument
+            [pgn_h, pgn_v] = prox_L12(gn_h/sig, gn_v/sig, lambda_h/sig);
+            gn_h=gn_h - sig*pgn_h;
+            gn_v=gn_v - sig*pgn_v;
             
+            %Dual Variable of s
+            [ptn_h, ptn_v] = opL(v);
+            tn_h = tn_h + sig*ptn_h; %prox argument
+            tn_v = tn_v + sig*ptn_v; %prox argument
+            [ptn_h, ptn_v] = prox_L12(tn_h/sig, tn_v/sig, lambda_v/sig);
+            tn_h=tn_h - sig*ptn_h;
+            tn_v=tn_v - sig*ptn_v;
             
             %Update of the descent steps
             theta = (1+2*mu_g*tau)^(-1/2);
@@ -124,14 +150,16 @@ function [v, h, t, crit, gap]=PA_PDc_1D(L_X,prox)
             sig=sig/theta;
             
             %Update dual auxiliary variable
-            bgn = gn + theta*(gn-gn_s);
-            btn = tn + theta*(tn-tns);
+            bgn_h = gn_h + theta*(gn_h-gn_hs);
+            bgn_v = gn_v + theta*(gn_v-gn_vs);
+            btn_h = tn_h + theta*(tn_h-tn_hs);
+            btn_v = tn_v + theta*(tn_v-tn_vs);
             
             t(it) = toc;
             
             %% Compute convergence criteria
             
-            [c,~,g] = PDc_gap_1D(v, h, tn, gn, L, adj_tv, adj_th, f_adj0, JJ, prox, use);
+            [c,~,g] = PDj_gap(v, h, tn_h, tn_v, gn_h, gn_v, L, adj_tv, adj_th, f_adj0, JJ, prox, use);
             
             crit(it) = c;
             gap(it) = g;

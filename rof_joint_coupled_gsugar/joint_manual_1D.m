@@ -24,7 +24,7 @@ function x = joint_manual_1D(L,lbd_h,lbd_v)
     prox.lambda_v = lbd_v;
     prox.lambda_h = lbd_h;
     
-    % Minimization of the ROF functional
+    % Minimization of the joint functional
     [v,h] = PA_PDj_1D(L,prox);
     x.h = h;
     x.v = v;

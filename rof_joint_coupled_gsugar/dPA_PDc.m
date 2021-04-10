@@ -336,7 +336,7 @@ function [v, h, Ev, Eh, dv_lv, dv_la, dh_lv, dh_la, Edv_lv, Edv_la, Edh_lv, Edh_
             Eg_v = Eg_v + sig*alpha*Epgn_v; %prox argument
             
             
-            %Dual Variable of s
+            %Dual Variable of v
             [dptn_h_lv, dptn_v_lv] = opL(dv_lv);
             [dptn_h_la, dptn_v_la] = opL(dv_la);
             [ptn_h, ptn_v] = opL(v);

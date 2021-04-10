@@ -10,6 +10,7 @@ function use = usefull(JJ,L)
     %         - L: log-leaders
     %
     % ouputs  - use.norm: square root of Lipschitz constant of least squares data-fidelity term
+    %         - use.norminv: square root of Lipschitz constant of dual least squares data-fidelity term
     %         - use.mu: strong convexity modulus of data-fidelity term
     %         - use.SLj: sum of the log-leaders over the octaves
     %         - use.SjLj: sum of the log-leaders multiplied by octave number over the octaves
@@ -30,6 +31,9 @@ function use = usefull(JJ,L)
     % Determinant of the matrix J
     use.det = use.S0*use.S2-use.S1^2;
     
+    % Inverse of the matrix J
+    Jinv = [[use.S2 -use.S1];[-use.S1 use.S0]]/use.det;
+    
     % Sum of the log-leaders over the octaves
     use.SLj = zeros(N1,N2);
     for ii=JJ
@@ -47,4 +51,6 @@ function use = usefull(JJ,L)
     use.mu = min(eigen);
     use.norm = sqrt(max(eigen));
     
+    eigeninv = eig(Jinv);
+    use.norminv = sqrt(max(eigeninv));
 end

@@ -1,16 +1,15 @@
-% Chambolle-Pock primal-dual algorithm with strong convexity acceleration
-% to minimize the coupled functional for fractal texture segmentation (image)
+% Fast Iterative Soft Thresholding Algorithm for the minimization of the
+% coupled functional for fractal texture segmentation (image)
 %
 % from
-% - A. Chambolle, T. Pock: A first-order primal-dual algorithm for convex
-% problems with applications to imaging, J. Math. Imag. Vis. 40(1),
-% 120-145 (2011)
+% - A.Chambolle, C. Dossal: On the convergence of the iterates of ``FISTA",
+%  J. Optim. Theory Appl. 166(3), 25 (2015)
 % and
 % - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for
 % Joint Fractal Feature Estimation and Texture Segmentation,
 % (2019) arxiv:1910.05246
 
-function [v, h, t, crit, gap]=PA_PDc(L_X,prox)
+function [v, h, t, crit, gap]=FISTAc(L_X,prox)
     
     % inputs  - L_X.leaders: undecimated wavelet leaders
     %         - prox: (lambda, alpha) regularization parameters
@@ -60,36 +59,46 @@ function [v, h, t, crit, gap]=PA_PDc(L_X,prox)
     
     %% Fixing Proximal Paramters
     gamma = 0.99;
-    mu_g=use.mu;
-    alpha = prox.alpha;
-    use.alpha = alpha;
-    normD = normD_2D(alpha,size(L{JJ(1)}));
-    Lip = normD;
-    tau = gamma/Lip;
-    sig = gamma/Lip;
-    lambda = prox.lambda;
+    normD = sqrt(1+alpha^2)*sqrt(2);
+    norminv = use.norminv;
+    Lip = normD^2*norminv^2;
+    gamman = gamma/Lip;
+    lambda_h = prox.lambda_h;
+    lambda_v = prox.lambda_v;
     iter = 1e5;
     eps = 1e-4;
     
+    
     %% Initialization
-    h = zeros(size(L{JJ(1)}));
-    [g_h, g_v] = opL(h);
-    bg_h = g_h;
-    bg_v = g_v;
-    v = zeros(size(L{JJ(1)}));
-    [t_h, t_v] = opL(v);
-    bt_h = t_h;
-    bt_v = t_v;
     
-    crit = zeros(1,iter); gap = crit;
-    t = crit;
+    %Dual variables
+    th = zeros(size(L_X.h_LR));
+    tv = zeros(size(L_X.h_LR));
+    gh = zeros(size(L_X.h_LR));
+    gv = zeros(size(L_X.h_LR));
+    bth = th;
+    btv = tv;
+    bgh = gh;
+    bgv = gv;
     
+    %Primal variables
+    v = Aadj_tv;
+    h = Aadj_th;
+    
+    %Intertia FISTA parameter
+    fista = 1;
+    a = 4;
+    
+    %Convergnce criteria
+    crit = zeros(1,iter);
+    gap = crit;
+    t = zeros(1,iter);
     it = 0;
     gap_c = eps + 1;
     
     %% ALGORITHM
     
-    if lambda < 0 || alpha < 0
+    if lambda_v < 0 || lambda_h < 0
         [v,h] = linear_reg(L,L_X.JJ);
     else
         while (gap_c > eps)&&(it<iter)
@@ -98,48 +107,42 @@ function [v, h, t, crit, gap]=PA_PDc(L_X,prox)
             
             tic
             %Save the dual variables
-            g_hs = g_h;
-            g_vs = g_v;
-            t_hs = t_h;
-            t_vs = t_v;
-            
-            %Update of primal variable
-            h = h - tau*alpha*opL_adj(bg_h,bg_v);
-            v = v - tau*opL_adj(bt_h,bt_v);
-            [h, v] = prox_hv(h,v,use,tau);
+            ths = th;
+            tvs = tv;
+            bths = bth;
+            btvs = btv;
+            ghs = gh;
+            gvs = gv;
+            bghs = bgh;
+            bgvs = bgv;
             
             %Update of dual variables
+            [tvh,tvv] = opL(v);
+            bth = bth + gamman*tvh;
+            btv = btv + gamman*tvv;
+            [thh,thv] = opL(h);
+            bgh = bgh + gamman*alpha*thh;
+            bgv = bgv + gamman*thv;
+            [tvh, tvv, thh, thv] = prox_L12c(bth/gamman,btv/gamman,bgh/gamman,bgv/gamman,lambda/gamman);
+            th = bth - gamman*tvh;
+            tv = btv - gamman*tvv;
+            gh = bgh - gamman*thh;
+            gv = bgv - gamman*thv;
+        
+        %Update of intertia FISTA parameter
+            fistas = fista;
+            fista = (it+a)/a;
             
-            %Dual Variable of h
-            [pgn_h, pgn_v] = opL(h);
-            g_h = g_h + sig*alpha*pgn_h; %prox argument
-            g_v = g_v + sig*alpha*pgn_v; %prox argument
+            %Update of dual auxiliary variable
+            bth = th+(fistas-1)*(th-ths)/fista;
+            btv = tv+(fistas-1)*(tv-tvs)/fista;
+            bgh = gh+(fistas-1)*(gh-ghs)/fista;
+            bgv = gv+(fistas-1)*(gv-gvs)/fista;
             
-            %Dual Variable of v
-            [ptn_h, ptn_v] = opL(v);
-            t_h = t_h + sig*ptn_h; %prox argument
-            t_v = t_v + sig*ptn_v; %prox argument
-            
-            
-            [pgn_h, pgn_v, ptn_h, ptn_v] = prox_L12c(g_h/sig, g_v/sig, t_h/sig, t_v/sig, lambda/sig);
-            
-            g_h=g_h - sig*pgn_h;
-            g_v=g_v - sig*pgn_v;
-            
-            t_h=t_h - sig*ptn_h;
-            t_v=t_v - sig*ptn_v;
-            
-            %Update of the descent steps
-            theta = (1+2*mu_g*tau)^(-1/2);
-            tau = theta*tau;
-            sig=sig/theta;
-            
-            
-            %Update dual auxiliary variable
-            bg_h = g_h + theta*(g_h-g_hs);
-            bg_v = g_v + theta*(g_v-g_vs);
-            bt_h = t_h + theta*(t_h-t_hs);
-            bt_v = t_v + theta*(t_v-t_vs);
+            %Update of primal variable
+            [ov,oh] = op_AtAinvDadj(bth-bths,btv-btvs,alpha*(bgh-bghs),alpha*(bgv-bgvs),use);
+            v = v - ov;
+            h = h - oh;
             
             t(it) = toc;
             

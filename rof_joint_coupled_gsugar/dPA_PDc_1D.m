@@ -209,7 +209,7 @@ function [v, h, Ev, Eh, dv_lv, dv_la, dh_lv, dh_la, Edv_lv, Edv_la, Edh_lv, Edh_
     
     %% ALGORITHM
     
-    if lambda < 0 || lambda < 0
+    if lambda < 0 || alpha < 0
         [v,h] = linear_reg(L,L_X.JJ);
     else
         while (gap_c > eps)&&(it<iter)

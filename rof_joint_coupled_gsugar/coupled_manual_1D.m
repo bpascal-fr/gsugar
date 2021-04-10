@@ -23,7 +23,7 @@ function x = coupled_manual_1D(L,lbd,alph)
     prox.lambda = lbd;
     prox.alpha = alph;
     
-    % Minimization of the ROF functional
+    % Minimization of the coupled functional
     [v,h] = PA_PDc_1D(L,prox);
     x.h = h;
     x.v = v;

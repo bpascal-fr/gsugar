@@ -29,7 +29,7 @@ function L = multiscale_analysis_1D(X, JJ, Nwt, gamint)
     %         - L.S, estimated covariance matrix of leaders
     %         - L.h_LR, linear regression estiamte of local regularity
     %         - L.v_LR, linear regression estimate of local power
-    %         - L.JJ,range of scales considered
+    %         - L.JJ, range of scales considered
     %
     % Implementation B. Pascal, ENS Lyon
     % May 2020

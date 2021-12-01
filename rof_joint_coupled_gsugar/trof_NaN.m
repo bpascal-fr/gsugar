@@ -21,7 +21,6 @@ function [segh,resth]= trof_NaN(h,K)
     
     % INITIALISATION
     iter = 12; %number of iterations
-    max(h(~isnan(h)))
     tau = linspace(min(h(~isnan(h))),max(h(~isnan(h))),K);
     m0 = mean(h(tau(1) >= h));
     ind = cell(1,K-1);

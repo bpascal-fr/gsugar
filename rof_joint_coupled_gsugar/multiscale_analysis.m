@@ -24,12 +24,21 @@ function [L,C] = multiscale_analysis(X, JJ, Nwt, gamint)
     %         - Nwt : number of vanishing moments of wavelet (default 2)
     %         - gamint: fractional integration parameter (default 1)
     %
-    % outputs - L.leaders, log2 leaders coefficients of X
+    % outputs L: quantities computed from wavelet leaders 
+    %         - L.leaders, log2 leaders coefficients of X
     %         - L.coefs, absolute value of maximal wavelet coefficients of X
     %         - L.S, estimated covariance matrix of leaders
-    %         - L.h_LR, linear regression estiamte of local regularity
+    %         - L.D, estimated variances of leaders
+    %         - L.h_LR, linear regression estimate of local regularity
     %         - L.v_LR, linear regression estimate of local power
     %         - L.JJ, range of scales considered
+    %         C: quantities computed from wavelet coefficients 
+    %         - C.coefs, absolute value of maximal wavelet coefficients of X
+    %         - C.S, estimated covariance matrix of maximal wavelet coefficients of X
+    %         - C.D, estimated variances of maximal wavelet coefficients of X
+    %         - C.h_LR, linear regression estimate of local regularity
+    %         - C.v_LR, linear regression estimate of local power
+    %         - C.JJ, range of scales considered
     %
     % Implementation B. Pascal, ENS Lyon
     % May 2020
@@ -68,7 +77,7 @@ function [L,C] = multiscale_analysis(X, JJ, Nwt, gamint)
         end
         Cj(jj,:) = reshape(max(Yj(:,:,jj)),1,M);
         L.coefs{jj}= reshape(max(Yj(:,:,jj)),N1,N2);
-        C.leaders{jj}=reshape(max(Yj(:,:,jj)),N1,N2);
+        C.coefs{jj}=reshape(max(Yj(:,:,jj)),N1,N2);
     end
     
     
@@ -128,12 +137,12 @@ function [L,C] = multiscale_analysis(X, JJ, Nwt, gamint)
     for ii = JJ
         for jj = JJ
             % Estimate correlations 
-            Sc{ii,jj} = xcorr2(log2(C.leaders{ii}),log2(C.leaders{jj}))/(N1*N2) - mean(log2(C.leaders{ii}(:)))*mean(log2(C.leaders{jj}(:)));
+            Sc{ii,jj} = xcorr2(log2(C.coefs{ii}),log2(C.coefs{jj}))/(N1*N2) - mean(log2(C.coefs{ii}(:)))*mean(log2(C.coefs{jj}(:)));
             % Truncate it
             sc_cov = 2^(ii-1)+2^(jj-1);
             Sc{ii,jj} = Sc{ii,jj}(N1-sc_cov:N1+sc_cov, N2-sc_cov:N2+sc_cov);
         end
-        Dc(ii) = var(log2(C.leaders{ii}(:)));
+        Dc(ii) = var(log2(C.coefs{ii}(:)));
     end
     C.S = Sc;
     C.D = Dc;

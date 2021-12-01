@@ -16,17 +16,24 @@
 % Joint Fractal Feature Estimation and Texture Segmentation, 
 % (2019) arxiv:1910.05246
 
-function L = multiscale_analysis_light(X, JJ, Nwt, gamint)
+function [L,C] = multiscale_analysis_light(X, JJ, Nwt, gamint)
     
     % inputs  - X: textured image to be analyzed
     %         - JJ: range of scales considered (default 1:3)
     %         - Nwt : number of vanishing moments of wavelet (default 2)
     %         - gamint: fractional integration parameter (default 1)
     %
-    % outputs - L.leaders, log2 leaders coefficients of X
-    %         - L.h_LR, linear regression estiamte of local regularity
+    % outputs L: quantities computed from wavelet leaders 
+    %         - L.leaders, log2 leaders coefficients of X
+    %         - L.coefs, absolute value of maximal wavelet coefficients of X
+    %         - L.h_LR, linear regression estimate of local regularity
     %         - L.v_LR, linear regression estimate of local power
     %         - L.JJ, range of scales considered
+    %         C: quantities computed from wavelet coefficients 
+    %         - C.coefs, absolute value of maximal wavelet coefficients of X
+    %         - C.h_LR, linear regression estimate of local regularity
+    %         - C.v_LR, linear regression estimate of local power
+    %         - C.JJ, range of scales considered
     %
     % Implementation B. Pascal, ENS Lyon
     % May 2020
@@ -45,14 +52,28 @@ function L = multiscale_analysis_light(X, JJ, Nwt, gamint)
     
     % Store range of scales
     L.JJ = JJ;
+    C.JJ = JJ;
     J2 = JJ(end);
     
     % COMPUTATION OF THE CUMULANTS AND MULTIFRACTALS PARAMETERS
     
     % Computation
-    [~, leaders, ~] = DCLx2d_lowmem_bord(X, Nwt, gamint,0, J2, 0); %leaders at each point (no decimation) with Lambda 3 (no modification for the moment)
+    [coefs, leaders, ~] = DCLx2d_lowmem_bord(X, Nwt, gamint,0, J2, 0); %leaders at each point (no decimation) with Lambda 3 (no modification for the moment)
     [N1,N2] = size(X);
     M =  numel(leaders(1).value(:));
+    
+    
+    % Extraction of maximum wavelet coefficients
+    Yj = zeros(3,M,J2);
+    Cj = zeros(J2,M);
+    for jj=1:J2
+        for m =1:3
+            Yj(m,:,jj) = reshape(abs(coefs(jj).value(:,:,m)),1,M);
+        end
+        Cj(jj,:) = reshape(max(Yj(:,:,jj)),1,M);
+        L.coefs{jj}= reshape(max(Yj(:,:,jj)),N1,N2);
+        C.coefs{jj}=reshape(max(Yj(:,:,jj)),N1,N2);
+    end
     
     
     % Extraction of leaders
@@ -78,5 +99,12 @@ function L = multiscale_analysis_light(X, JJ, Nwt, gamint)
     L.h_LR = reshape(h_LR,N1,N2);
     L.v_LR = reshape(v_LR,N1,N2);
     
+    % Linear regression to find sigma and h from coefficients
+    SCj = sum(Cj(JJ,:),1); 
+    SjCj = (JJ)*Cj(JJ,:);
+    hc_LR = (S0*SjCj - S1*SCj)/det;
+    vc_LR = (-S1*SjCj + S2*SCj)/det;
+    C.h_LR = reshape(hc_LR,N1,N2);
+    C.v_LR = reshape(vc_LR,N1,N2);
     
 end

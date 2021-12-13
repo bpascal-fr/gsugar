@@ -7,7 +7,7 @@ function display_result_tv(x,seg)
     % Contour detection
     [Hs,Vs] = opL(seg);
     Ds      = sqrt(Hs.^2+Vs.^2);
-    deps    = max(1,sqrt(numel(img))/2^7); % width of the contour
+    deps    = max(1,round(sqrt(numel(img))/2^7)); % width of the contour
     bDs     = conv2(Ds,ones(deps,deps)/deps,'same'); % contour spreading
     binDs   = bDs > 0;
     

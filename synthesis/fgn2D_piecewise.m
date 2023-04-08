@@ -63,8 +63,7 @@ function U=fgn2D_piecewise(N,H,Variance)
         Zp{iH}=T-T(2^M+1,2^M+1);
         Zh = 1/2*Zp{iH}(:,1:end-1) - 1/2*Zp{iH}(:,2:end);
         Zv = 1/2*Zp{iH}(1:end-1,:) - 1/2*Zp{iH}(2:end,:);
-        Zv = 1/2*Zp{iH}(1:end-1,:) - 1/2*Zp{iH}(2:end,:);
-        Zp{iH} = 2*Zv(1:2^N,1:2^N);% + Zv(1:2^N,1:2^N);
+        Zp{iH} = Zh(1:2^N,1:2^N) + Zv(1:2^N,1:2^N);
         Zp{iH} = Zp{iH}/std2(Zp{iH});
         U(H==Hlist(iH)) =  Zp{iH}(H==Hlist(iH));
     end

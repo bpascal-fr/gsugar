@@ -1,11 +1,10 @@
 
-function U=fgn1D_piecewise(N,H,Variance)
+function U=fbm1D(N,H,Variance)
     
     
-    % Generate piecewise homogeneous fractal process with prescribed
-    % local regularity and local variance from a generalized model of
-    % Fractional Gaussian Noise combining horizontal and vertical 
-    % increments of the Fractional Brownian Motion
+    % Generate homogeneous fractal process with prescribed
+    % local regularity and local variance from a standard model of
+    % Fractional Brownian Motion
     %
     % from
     % - B. Pascal, N. Pustelnik, P. Abry: Strongly Convex Optimization for 
@@ -44,7 +43,6 @@ function U=fgn1D_piecewise(N,H,Variance)
     %CONSTRUCTION OF THE FIELD (FOURIER INVERSE + RENORMALIZATION)
     T=real(ifft2(ifftshift(W)));
     Zp=T-T(2^M+1);
-    Zp=Zp(2:end)-Zp(1:end-1);
     Zp = Zp/std(Zp);
     U = sqrt(Variance).*Zp;
     

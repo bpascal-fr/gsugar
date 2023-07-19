@@ -53,6 +53,7 @@ function U=fbm2D(N,H,Variance)
     %CONSTRUCTION OF THE FIELD (FOURIER INVERSE + RENORMALIZATION)
     T  =real(ifft2(ifftshift(W)));
     Zp = T-T(2^M+1,2^M+1);
+    Zp = Zp(1:end-1,1:end-1);
     Zp = Zp/std2(Zp);
     U = sqrt(Variance).*Zp;
 end

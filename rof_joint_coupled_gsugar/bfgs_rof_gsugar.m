@@ -51,7 +51,7 @@ function [x,lbd] = bfgs_rof_gsugar(L,maxit,lbd_in)
     
     % Compute initial Hessian
     [~,sugar] = SURE_SUGAR_rof_GRANSO(L, lbd_i, sure, S);
-    alpha = 0.5; B = abs(alpha*lbd_i(1))/abs(sugar);
+    alpha = 0.5; B = abs(alpha*lbd_i(1))/abs(sugar); 
     opts.H0 = B;
     
     % Define SURE and SUGAR as a function

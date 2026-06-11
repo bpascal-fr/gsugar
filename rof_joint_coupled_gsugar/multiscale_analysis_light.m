@@ -29,11 +29,13 @@ function [L,C] = multiscale_analysis_light(X, JJ, Nwt, gamint)
     %         - L.h_LR, linear regression estimate of local regularity
     %         - L.v_LR, linear regression estimate of local power
     %         - L.JJ, range of scales considered
+    %         - L.disp, display or not intermediate results when optimizing hyperparameters
     %         C: quantities computed from wavelet coefficients 
     %         - C.coefs, absolute value of maximal wavelet coefficients of X
     %         - C.h_LR, linear regression estimate of local regularity
     %         - C.v_LR, linear regression estimate of local power
     %         - C.JJ, range of scales considered
+    %         - C.disp, display or not intermediate results when optimizing hyperparameters
     %
     % Implementation B. Pascal, ENS Lyon
     % May 2020
@@ -107,4 +109,7 @@ function [L,C] = multiscale_analysis_light(X, JJ, Nwt, gamint)
     C.h_LR = reshape(hc_LR,N1,N2);
     C.v_LR = reshape(vc_LR,N1,N2);
     
+    % Display or not intermediate results when optimizing hyperparameters
+    L.disp = true;
+    C.disp = true;
 end

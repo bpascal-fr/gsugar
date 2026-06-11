@@ -30,6 +30,7 @@ function L = multiscale_analysis_1D(X, JJ, Nwt, gamint)
     %         - L.h_LR, linear regression estiamte of local regularity
     %         - L.v_LR, linear regression estimate of local power
     %         - L.JJ, range of scales considered
+    %         - L.disp, display or not intermediate results when optimizing hyperparameters
     %
     % Implementation B. Pascal, ENS Lyon
     % May 2020
@@ -106,4 +107,7 @@ function L = multiscale_analysis_1D(X, JJ, Nwt, gamint)
     end
     L.S = S;
     L.D = D;
+
+    % Display or not intermediate results when optimizing hyperparameters
+    L.disp = true;
 end

@@ -37,8 +37,8 @@ Var0 = 0.6; Var1 = 1.1;
 % Piecewise monofractal
 X = fgn1D_piecewise(N,H,Var);
 figure(1); clf
-subplot(231); plot(1:2^N,MASK,'linewidth',2); title('Mask','interpreter','latex','fontsize',12); set(gca,'fontsize',20,'ticklabelinterpreter','latex'); grid on
-subplot(232); plot(1:2^N,X,'linewidth',2); title('Signal','interpreter','latex','fontsize',12); set(gca,'fontsize',20,'ticklabelinterpreter','latex'); grid on
+subplot(231); plot(1:2^N,MASK,'linewidth',2); title('Mask','interpreter','latex','fontsize',12); set(gca,'fontsize',20,'ticklabelinterpreter','latex','color','none'); grid on
+subplot(232); plot(1:2^N,X,'linewidth',2); title('Signal','interpreter','latex','fontsize',12); set(gca,'fontsize',20,'ticklabelinterpreter','latex','color','none'); grid on
 
 %% MULTI-SCALE ANALYSIS - LEADERS COEFFICIENTS
 
@@ -47,7 +47,7 @@ JJ = 1:6;              % range of scales (default 1:3)
 % Compute leaders and perform ordinary linear regression
 L_X = multiscale_analysis_1D(X,  JJ);
 figure(1);
-subplot(233); plot(1:2^N,L_X.h_LR,'linewidth',2); title('$\widehat{h}^{\mathrm{LR}}$','interpreter','latex','fontsize',12); set(gca,'fontsize',20,'ticklabelinterpreter','latex'); grid on
+subplot(233); plot(1:2^N,L_X.h_LR,'linewidth',2); title('$\widehat{h}^{\mathrm{LR}}$','interpreter','latex','fontsize',12); set(gca,'fontsize',20,'ticklabelinterpreter','latex','color','none'); grid on
 
 %% BFGS MINIMIZATION USING SUGAR -- ROF FUNCTIONAL
 

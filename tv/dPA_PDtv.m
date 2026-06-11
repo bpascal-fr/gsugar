@@ -50,8 +50,8 @@ function [x,Ex, dx, Edx, crit, gap, t]=dPA_PDtv(I,prox, sure)
     tau = gamma/normD;
     sig = gamma/normD;
     lambda = prox.lambda;
-    iter = 1e5;
-    eps = 1e-4;
+    iter = 5e3;%1e5;
+    eps = 1e-3;%1e-4;
     
     
     %% Initializing variables

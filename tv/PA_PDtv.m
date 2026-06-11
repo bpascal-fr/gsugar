@@ -29,8 +29,8 @@ function [x, crit, gap, t]=PA_PDtv(I,prox)
     tau = gamma/normD;
     sig = gamma/normD;
     lambda = prox.lambda;
-    iter = 1e5;
-    eps = 1e-4;
+    iter = 5e3;%1e5;
+    eps = 1e-3;%1e-4;
     
     
     %% Initializing variables

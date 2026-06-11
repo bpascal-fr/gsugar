@@ -103,8 +103,8 @@ function [v, h, Ev, Eh, dv_lv, dv_lh, dh_lv, dh_lh, Edv_lv, Edv_lh, Edh_lv, Edh_
     sig = gamma/Lip;
     lambda_v = prox.lambda_v;
     lambda_h = prox.lambda_h;
-    iter = 1e5;
-    eps = 1e-4;
+    iter = 5e3; %1e5;
+    eps = 1e-3; %1e-4;
     
     %% Initialization
     

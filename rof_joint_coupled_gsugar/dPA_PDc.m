@@ -100,8 +100,8 @@ function [v, h, Ev, Eh, dv_lv, dv_la, dh_lv, dh_la, Edv_lv, Edv_la, Edh_lv, Edh_
     tau = gamma/Lip;
     sig = gamma/Lip;
     lambda = prox.lambda;
-    iter = 1e5;
-    eps = 1e-4;
+    iter = 5e3;%1e5;
+    eps = 1e-3;%1e-4;
     
     %% Initialization
     

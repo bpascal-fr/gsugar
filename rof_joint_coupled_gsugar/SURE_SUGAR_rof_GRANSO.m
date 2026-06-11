@@ -39,10 +39,12 @@ function [sure_fdmc,sugar,h, Eh, dh, Edh] = SURE_SUGAR_rof_GRANSO(L, lbd, sure, 
     
     tmp = get_init;
     if isfield(tmp,'h')
-        figure(1);
-        subplot(234);imagesc(tmp.h); axis off image; colormap(gray)
-        title('$\widehat{h}^{\mathrm{ROF}}$','interpreter','latex','fontsize',20)
-        pause(0.1)
+        if L.disp
+            figure(1);
+            subplot(234);imagesc(tmp.h); axis off image; colormap(gray)
+            title('$\widehat{h}^{\mathrm{ROF}}$','interpreter','latex','fontsize',20)
+            pause(0.1)
+        end
     end
     
     % Compute tr(A*Pi*PiAC) for non scalar covariance matrix

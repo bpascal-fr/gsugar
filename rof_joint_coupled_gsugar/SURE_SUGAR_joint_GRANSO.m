@@ -52,10 +52,12 @@ function [sure_fdmc,sugar,v,h,Eh,dh_lv, dh_lh,Edh_lv,Edh_lh] = SURE_SUGAR_joint_
     
     tmp = get_init;
     if isfield(tmp,'h')
-        figure(1);
-        subplot(235);imagesc(tmp.h); axis off image; colormap(gray)
-        title('$\widehat{h}^{\mathrm{J}}$','interpreter','latex','fontsize',20)
-        pause(0.1)
+        if L.disp
+            figure(1);
+            subplot(235);imagesc(tmp.h); axis off image; colormap(gray)
+            title('$\widehat{h}^{\mathrm{J}}$','interpreter','latex','fontsize',20)
+            pause(0.1)
+        end
     end
     
     % Compute tr(A*Pi*PiAC) for non scalar covariance matrix

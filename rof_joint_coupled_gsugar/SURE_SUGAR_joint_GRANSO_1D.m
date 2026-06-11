@@ -32,10 +32,12 @@ function [sure_fdmc,sugar] = SURE_SUGAR_joint_GRANSO_1D(L, lbd, sure, S)
     
     tmp = get_init;
     if isfield(tmp,'h')
-        figure(1); 
-        subplot(235)
-        plot(1:length(tmp.h),tmp.h,'linewidth',2); grid on; title('$\widehat{h}^{\mathrm{J}}$','interpreter','latex','fontsize',20); set(gca,'fontsize',20,'ticklabelinterpreter','latex'); grid on
-        pause(0.1)
+        if L.disp
+            figure(1); 
+            subplot(235)
+            plot(1:length(tmp.h),tmp.h,'linewidth',2); grid on; title('$\widehat{h}^{\mathrm{J}}$','interpreter','latex','fontsize',20); set(gca,'fontsize',20,'ticklabelinterpreter','latex'); grid on
+            pause(0.1)
+        end
     end
     
     % Compute tr(A*Pi*PiAC) for non scalar covariance matrix

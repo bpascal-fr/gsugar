@@ -59,7 +59,7 @@ subplot(233); plot(1:2^N,L_X.h_LR,'linewidth',2); title('$\widehat{h}^{\mathrm{L
     % maxit: max. number iterations (defaut 20)
     % lbd_in.l: initial lambda
     % x_opt.h: estimate of local regularity with lowest estimated risk
-    % lbd_opt.l: optimal hyperparameter lambda
+    % lbd_rof_opt.l: optimal hyperparameter lambda
     
 % Segmentation and score
 K = 2;      % number of regions
@@ -88,8 +88,8 @@ G_rof = global_analysis(X, L_X, seg_rof_opt);
     % lbd_in.v: initial lambda_v (defaut (5.5) of the article)
     % x_opt.h: estimate of local regularity with lowest estimated risk
     % x_opt.v: estimate of local power with lowest estimated risk
-    % lbd_opt.h: optimal hyperparameter lambda_h
-    % lbd_opt.v: optimal hyperparameter lambda_v
+    % lbd_j_opt.h: optimal hyperparameter lambda_h
+    % lbd_j_opt.v: optimal hyperparameter lambda_v
     
 % Segmentation and score
 K = 2;      % number of regions
@@ -115,8 +115,8 @@ G_j = global_analysis(X, L_X, seg_j_opt);
     % lbd_in.a: initial alpha
     % x_opt.h: estimate of local regularity with lowest estimated risk
     % x_opt.v: estimate of local power with lowest estimated risk
-    % lbd_opt.l: optimal hyperparameter lambda
-    % lbd_opt.a: optimal hyperparameter alpha
+    % lbd_c_opt.l: optimal hyperparameter lambda
+    % lbd_c_opt.a: optimal hyperparameter alpha
     
 % Segmentation and score
 K = 2;      % number of regions

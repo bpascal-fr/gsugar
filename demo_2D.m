@@ -60,7 +60,7 @@ x_rof_man = rof_manual(L_X,lambda_rof);
 K = 2;      % number of regions
 [seg_rof_man,Th_rof_man]= trof(x_rof_man.h,K);
     % Th_man: thresholded optimal estimate of local regularity 
-    % seg_man: obtained segmentation for optimal hyperparameters
+    % seg_man: obtained segmentation for selected hyperparameter
 perf_rof = score(seg_rof_man,MASK);
     % percentage of well-classified pixels
     
@@ -81,7 +81,7 @@ x_j_man = joint_manual(L_X,lambda_h_j,lambda_v_j);
 K = 2;      % number of regions
 [seg_j_man,Th_j_man]= trof(x_j_man.h,K);
     % Th_man: thresholded optimal estimate of local regularity 
-    % seg_man: obtained segmentation for optimal hyperparameters
+    % seg_man: obtained segmentation for selected hyperparameters
 perf_j = score(seg_j_man,MASK);
     % percentage of well-classified pixels
     
@@ -101,7 +101,7 @@ x_c_man = coupled_manual(L_X,lambda_c,alpha_c);
 K = 2;      % number of regions
 [seg_c_man,Th_c_man]= trof(x_c_man.h,K);
     % Th_man: thresholded optimal estimate of local regularity 
-    % seg_man: obtained segmentation for optimal hyperparameters
+    % seg_man: obtained segmentation for selected hyperparameters
 perf_c = score(seg_c_man,MASK);
     % percentage of well-classified pixels
     
